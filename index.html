@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍕 Pizza Count</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0C0C0C;
+      color: #EDE7D0;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .board {
+      background: #111118;
+      border: 1px solid #28283A;
+      border-radius: 16px;
+      padding: 28px 32px 32px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      margin-bottom: 4px;
+      color: #FFFFFF;
+    }
+
+    .subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      color: #555566;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: block;
+      background: #1D1D24;
+      color: #EDE7D0;
+      border: 1px solid #28283A;
+      border-radius: 10px;
+      padding: 16px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .btn:hover  { background: #28283A; border-color: #3A3A50; }
+    .btn:active { background: #0C0C14; }
+
+    .divider {
+      height: 1px;
+      background: #222230;
+      margin: 24px 0;
+    }
+
+    /* QR code section — desktop only */
+    .qr-section {
+      display: none;
+    }
+
+    @media (pointer: fine) {
+      .qr-section {
+        display: block;
+        margin-bottom: 0;
+      }
+      .qr-label {
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        color: #555566;
+        margin-bottom: 16px;
+      }
+      #qrcode {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 16px;
+      }
+      #qrcode canvas, #qrcode img {
+        border-radius: 10px;
+        padding: 12px;
+        background: #EDE7D0;
+      }
+      .qr-hint {
+        font-size: 0.75rem;
+        color: #3A3A4A;
+        letter-spacing: 0.05em;
+        line-height: 1.5;
+      }
+      .mobile-import { display: none; }
+    }
+
+    @media (pointer: coarse) {
+      .qr-section { display: none; }
+      .mobile-import { display: block; }
+    }
+
+    .steps { text-align: left; }
+
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .step:last-child { margin-bottom: 0; }
+
+    .num {
+      background: #1D1D24;
+      border: 1px solid #28283A;
+      border-radius: 6px;
+      min-width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #EDE7D0;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-text {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #8A8070;
+    }
+
+    .step-text strong { color: #EDE7D0; font-weight: 600; }
+
+  </style>
+</head>
+<body>
+
+  <div class="board">
+    <div class="title">🍕 PIZZA COUNT</div>
+    <div class="subtitle">SETUP GUIDE</div>
+
+    <!-- Mobile: tap to import button -->
+    <div class="mobile-import">
+      <a class="btn" id="importBtn" href="#">⬇︎ &nbsp;IMPORT SCRIPT</a>
+    </div>
+
+    <!-- Desktop: QR code to scan with phone -->
+    <div class="qr-section">
+      <div class="qr-label">SCAN WITH YOUR IPHONE CAMERA</div>
+      <div id="qrcode"></div>
+      <div class="qr-hint">Points your phone straight to the import screen.<br>No typing required.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="step-text">
+          Download <strong>Scriptable</strong> from the App Store —
+          free, orange icon by Simon Støvring
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="step-text">
+          iPhone <strong>Settings → Scriptable →
+          Background App Refresh → ON</strong>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="step-text">
+          Tap <strong>Import Script</strong> above (or scan the QR code) →
+          tap <strong>Import</strong> → tap <strong>your name</strong> → you're live ✅
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="step-text">
+          Long-press home screen → <strong>+</strong> →
+          search <strong>Scriptable</strong> → choose
+          <strong>Medium</strong> → Add Widget →
+          long-press widget → Edit Widget →
+          Script: <strong>PizzaCount</strong> →
+          When Interacting: <strong>Run Script</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const GIST_URL = "https://gist.githubusercontent.com/richdavies66-ops/4874df5ee5f4aacbad3401cbb2bfde7b/raw/gistfile1.txt"
+    const SCRIPTABLE_URL = "scriptable:///import?name=PizzaCount&url=" + encodeURIComponent(GIST_URL)
+
+    // Set import button href (mobile)
+    document.getElementById("importBtn").href = SCRIPTABLE_URL
+
+    // Auto-redirect on iOS
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream
+    if (isIOS) {
+      setTimeout(function() {
+        window.location.href = SCRIPTABLE_URL
+      }, 800)
+    }
+
+    // Generate QR code (desktop)
+    const isDesktop = window.matchMedia("(pointer: fine)").matches
+    if (isDesktop) {
+      new QRCode(document.getElementById("qrcode"), {
+        text: SCRIPTABLE_URL,
+        width: 200,
+        height: 200,
+        colorDark: "#0C0C0C",
+        colorLight: "#EDE7D0",
+        correctLevel: QRCode.CorrectLevel.M
+      })
+    }
+  </script>
+
+</body>
+</html>
